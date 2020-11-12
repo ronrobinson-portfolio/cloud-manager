@@ -12,19 +12,16 @@
             <span>Cloud Manager</span>
 
             <v-spacer></v-spacer>
-
-            <v-btn icon>
-                <v-icon>mdi-account-circle</v-icon>
-            </v-btn>
-
-            <v-btn icon>
-                <v-icon>mdi-cart</v-icon>
-            </v-btn>
         </v-app-bar>
 
         <v-navigation-drawer permanent mini-variant app clipped>
             <v-list dense>
-                <v-list-item v-for="item in items" :key="item.title" link>
+                <v-list-item
+                    v-for="item in items"
+                    :key="item.title"
+                    :to="item.route"
+                    link
+                >
                     <v-list-item-icon>
                         <v-icon>{{ item.icon }}</v-icon>
                     </v-list-item-icon>
@@ -67,14 +64,17 @@
         data: () => ({
             isInited: false,
             items: [
-                { title: 'Dashboard', icon: 'mdi-view-dashboard' },
-                { title: 'Devices', icon: 'mdi-monitor' },
-                { title: 'Settings', icon: 'mdi-cog' },
+                {
+                    title: 'Devices',
+                    icon: 'mdi-view-dashboard',
+                    route: 'home',
+                },
+                { title: 'Emulator', icon: 'mdi-monitor', route: 'emulator' },
             ],
             right: null,
         }),
 
-        computed : {
+        computed: {
             ...app.mapState(['errorBag']),
         },
 

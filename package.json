@@ -27,5 +27,9 @@
     "prettier": {
         "singleQuote": true,
         "vueIndentScriptAndStyle": true
+    },
+    "dependencies": {
+        "laravel-echo": "^1.9.0",
+        "pusher-js": "^7.0.1"
     }
 }

@@ -22,7 +22,6 @@
 </template>
 
 <script>
-
     import { createNamespacedHelpers } from 'vuex';
     import DeviceForm from 'components/device/DeviceForm';
 
@@ -35,9 +34,7 @@
 
         data: () => ({
             selectedDevice: null,
-            dialogs: {
-                addDevice: false,
-            },
+
         }),
 
         computed: {

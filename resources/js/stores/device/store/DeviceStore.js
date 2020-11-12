@@ -27,12 +27,12 @@ const actions = {
             .catch(() => {});
     },
 
-    getDevices: ({ commit }) =>
+    getDevices: ({ state, commit }) =>
         deviceApi
             .get()
             .then((response) => {
                 commit('dataUpdate', { devices: response.data.data });
-                return Promise.resolve();
+                return Promise.resolve(state.devices);
             })
             .catch(() => {}),
 

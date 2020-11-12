@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AwsService;
 use App\Models\Device;
 use App\Models\Desktop;
+use App\Events\DeviceUpdatedEvent;
 use App\Http\Resources\DeviceResource;
 use App\Http\Resources\ResponseResource;
 use App\Http\Requests\DeviceFormRequest;
@@ -41,6 +42,7 @@ class DeviceController extends Controller
 
         $device->deviceable()->associate($deviceable)->save();
 
+        event(new DeviceUpdatedEvent($device));
         return new ResponseResource(['message' => 'Device Created']);
     }
 
@@ -58,6 +60,7 @@ class DeviceController extends Controller
         $device->status_id = $request->status_id;
         $device->save();
 
+        event(new DeviceUpdatedEvent($device));
         return new ResponseResource(['message' => 'Device Saved']);
     }
 
