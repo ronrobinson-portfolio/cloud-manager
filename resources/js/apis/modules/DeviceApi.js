@@ -1,6 +1,6 @@
 import api from '../client';
 
-let baseUrl = '/api/device/';
+let baseUrl = '/api/device';
 
 export default {
     add(device) {
@@ -8,7 +8,7 @@ export default {
     },
 
     update(device) {
-        return api().put(baseUrl + device.id, device);
+        return api().put(baseUrl + '/' + device.id, device);
     },
 
     get() {

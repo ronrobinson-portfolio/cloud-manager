@@ -87705,13 +87705,13 @@ if (client == null) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _client__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../client */ "./resources/js/apis/client.js");
 
-var baseUrl = '/api/device/';
+var baseUrl = '/api/device';
 /* harmony default export */ __webpack_exports__["default"] = ({
   add: function add(device) {
     return Object(_client__WEBPACK_IMPORTED_MODULE_0__["default"])().post(baseUrl, device);
   },
   update: function update(device) {
-    return Object(_client__WEBPACK_IMPORTED_MODULE_0__["default"])().put(baseUrl + device.id, device);
+    return Object(_client__WEBPACK_IMPORTED_MODULE_0__["default"])().put(baseUrl + '/' + device.id, device);
   },
   get: function get() {
     return Object(_client__WEBPACK_IMPORTED_MODULE_0__["default"])().get(baseUrl);
