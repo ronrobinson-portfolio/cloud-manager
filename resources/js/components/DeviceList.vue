@@ -16,6 +16,9 @@
             must-sort
             @click:row="openEditDeviceForm"
         >
+            <template v-slot:item.status_id="{ item }">
+                {{ getDeviceStatus(item) }}
+            </template>
         </v-data-table>
         <DeviceForm v-bind:device.sync="selectedDevice" />
     </v-card>
@@ -26,6 +29,7 @@
     import DeviceForm from 'components/device/DeviceForm';
 
     const deviceStore = createNamespacedHelpers('device');
+    const statusStore = createNamespacedHelpers('status');
 
     export default {
         components: {
@@ -34,11 +38,11 @@
 
         data: () => ({
             selectedDevice: null,
-
         }),
 
         computed: {
             ...deviceStore.mapState(['devices']),
+            ...statusStore.mapState(['statuses']),
 
             headers() {
                 return [
@@ -49,16 +53,34 @@
                         value: 'name',
                     },
                     {
+                        text: 'Device',
+                        align: 'start',
+                        sortable: true,
+                        value: 'deviceable_value',
+                    },
+                    {
                         text: 'IP',
                         align: 'start',
                         sortable: true,
                         value: 'ip',
+                    },
+                    {
+                        text: 'Status',
+                        align: 'start',
+                        sortable: true,
+                        value: 'status_id',
                     },
                 ];
             },
         },
 
         methods: {
+            getDeviceStatus(device) {
+                return this.statuses.find(
+                    (status) => status.id === device.status_id
+                ).status;
+            },
+
             openEditDeviceForm(device) {
                 this.selectedDevice = device;
             },

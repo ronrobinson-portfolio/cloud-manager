@@ -2043,9 +2043,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 
 var deviceStore = Object(vuex__WEBPACK_IMPORTED_MODULE_0__["createNamespacedHelpers"])('device');
+var statusStore = Object(vuex__WEBPACK_IMPORTED_MODULE_0__["createNamespacedHelpers"])('status');
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     DeviceForm: components_device_DeviceForm__WEBPACK_IMPORTED_MODULE_1__["default"]
@@ -2055,7 +2059,7 @@ var deviceStore = Object(vuex__WEBPACK_IMPORTED_MODULE_0__["createNamespacedHelp
       selectedDevice: null
     };
   },
-  computed: _objectSpread(_objectSpread({}, deviceStore.mapState(['devices'])), {}, {
+  computed: _objectSpread(_objectSpread(_objectSpread({}, deviceStore.mapState(['devices'])), statusStore.mapState(['statuses'])), {}, {
     headers: function headers() {
       return [{
         text: 'Name',
@@ -2063,14 +2067,29 @@ var deviceStore = Object(vuex__WEBPACK_IMPORTED_MODULE_0__["createNamespacedHelp
         sortable: true,
         value: 'name'
       }, {
+        text: 'Device',
+        align: 'start',
+        sortable: true,
+        value: 'deviceable_value'
+      }, {
         text: 'IP',
         align: 'start',
         sortable: true,
         value: 'ip'
+      }, {
+        text: 'Status',
+        align: 'start',
+        sortable: true,
+        value: 'status_id'
       }];
     }
   }),
   methods: {
+    getDeviceStatus: function getDeviceStatus(device) {
+      return this.statuses.find(function (status) {
+        return status.id === device.status_id;
+      }).status;
+    },
     openEditDeviceForm: function openEditDeviceForm(device) {
       this.selectedDevice = device;
     }
@@ -26859,7 +26878,22 @@ var render = function() {
           dense: "",
           "must-sort": ""
         },
-        on: { "click:row": _vm.openEditDeviceForm }
+        on: { "click:row": _vm.openEditDeviceForm },
+        scopedSlots: _vm._u([
+          {
+            key: "item.status_id",
+            fn: function(ref) {
+              var item = ref.item
+              return [
+                _vm._v(
+                  "\n            " +
+                    _vm._s(_vm.getDeviceStatus(item)) +
+                    "\n        "
+                )
+              ]
+            }
+          }
+        ])
       }),
       _vm._v(" "),
       _c("DeviceForm", {
