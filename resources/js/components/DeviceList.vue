@@ -24,19 +24,22 @@
     </v-card>
 </template>
 
-<script>
+<script lang="ts">
+    import Vue from 'vue';
     import { createNamespacedHelpers } from 'vuex';
-    import DeviceForm from 'components/device/DeviceForm';
+    import DeviceForm from 'components/device/DeviceForm.vue';
+    import { Device, DeviceListData } from 'interfaces/device';
+    import { Status } from 'interfaces/status';
 
     const deviceStore = createNamespacedHelpers('device');
     const statusStore = createNamespacedHelpers('status');
 
-    export default {
+    const DeviceList = Vue.extend({
         components: {
             DeviceForm,
         },
 
-        data: () => ({
+        data: (): DeviceListData => ({
             selectedDevice: null,
         }),
 
@@ -75,17 +78,19 @@
         },
 
         methods: {
-            getDeviceStatus(device) {
+            getDeviceStatus(device: Device) {
                 return this.statuses.find(
-                    (status) => status.id === device.status_id
+                    (status: Status) => status.id === device.status_id
                 ).status;
             },
 
-            openEditDeviceForm(device) {
+            openEditDeviceForm(device: Device) {
                 this.selectedDevice = device;
             },
         },
-    };
+    });
+
+    export default DeviceList;
 </script>
 
 <style></style>

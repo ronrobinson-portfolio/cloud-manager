@@ -1,15 +1,20 @@
+import { ActionTree, GetterTree, MutationTree, StoreOptions } from 'vuex';
+import { ApiResponse } from 'interfaces/apiResponse';
+import { RootState } from '../../../interfaces/app';
+import { DeviceState } from 'interfaces/device';
 import deviceApi from 'apis/modules/DeviceApi';
 
-const state = {
+const state: DeviceState = {
     namespace: 'device',
-
     devices: [],
 };
 
-const getters = {};
+const getters: GetterTree<DeviceState, RootState> = {
+    getDevices: (state: DeviceState) => state.devices,
+};
 
-const mutations = {
-    dataUpdate: (state, payload) => {
+const mutations: MutationTree<DeviceState> = {
+    dataUpdate: (state, payload: ApiResponse) => {
         Object.keys(state).forEach((key) => {
             if (payload.hasOwnProperty(key)) {
                 state[key] = payload[key];
@@ -18,7 +23,7 @@ const mutations = {
     },
 };
 
-const actions = {
+const actions: ActionTree<DeviceState, RootState> = {
     init: ({ dispatch }) => {
         const devicePromise = dispatch('getDevices');
 
@@ -30,7 +35,7 @@ const actions = {
     getDevices: ({ state, commit }) =>
         deviceApi
             .get()
-            .then((response) => {
+            .then((response: any) => {
                 commit('dataUpdate', { devices: response.data.data });
                 return Promise.resolve(state.devices);
             })
@@ -40,13 +45,13 @@ const actions = {
         deviceApi
             .add(device)
             .then(() => dispatch('getDevices'))
-            .catch((err) => Promise.reject(err)),
+            .catch((err: Error) => Promise.reject(err)),
 
     updateDevice: ({ dispatch, commit }, device) =>
         deviceApi
             .update(device)
             .then(() => dispatch('getDevices'))
-            .catch((err) => Promise.reject(err)),
+            .catch((err: Error) => Promise.reject(err)),
 };
 
 export default { state, getters, mutations, actions };

@@ -6,7 +6,9 @@ const state = {
     operatingSystems: [],
 };
 
-const getters = {};
+const getters = {
+    getOses: (state) => state.operatingSystems
+};
 
 const mutations = {
     dataUpdate: (state, payload) => {

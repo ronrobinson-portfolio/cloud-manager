@@ -6,7 +6,9 @@ const state = {
     services: [],
 };
 
-const getters = {};
+const getters = {
+    getServices: (state) => state.services
+};
 
 const mutations = {
     dataUpdate: (state, payload) => {

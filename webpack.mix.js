@@ -9,5 +9,5 @@ const resolve = {
 };
 
 mix.webpackConfig({resolve})
-    .js('resources/js/app.js', 'public/js')
+    .ts('resources/js/app.ts', 'public/js')
     .sass('resources/sass/app.scss', 'public/css');

@@ -1,9 +1,9 @@
-import  ErrorBag  from 'utils/errorBag/ErrorBag';
+import Vue from 'vue';
+import ErrorBag  from 'utils/errorBag/ErrorBag';
 
 const state = {
     namespace : 'app',
-
-    notification       : null,
+    notification : null,
 
     // Keep track of ajax requests
     ajaxRequestCount : 0,
