@@ -9,6 +9,10 @@ use App\Events\DeviceUpdatedEvent;
 use App\Http\Resources\DeviceResource;
 use App\Http\Resources\ResponseResource;
 use App\Http\Requests\DeviceFormRequest;
+use Aws\Signature\SignatureV4;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request as GuzzleRequest;
+use Aws\Credentials\Credentials;
 
 class DeviceController extends Controller
 {
@@ -74,4 +78,22 @@ class DeviceController extends Controller
     {
         //
     }
+
+    /*
+    public function test() {
+        $url = "https://brg4vyb9oc.execute-api.us-east-1.amazonaws.com/production/@connections/" . 'WPQNTeZrIAMCEdA=';
+
+        $region = 'us-east-1';
+        $msg['action'] = 'sendmessage';
+        $msg['data'] = 'hello world2';
+        $msg = json_encode($msg);
+        $request = new GuzzleRequest('POST', $url, ['Content-Type' => 'application/json'], $msg);
+        $signer = new SignatureV4('execute-api', $region);
+        $request = $signer->signRequest($request, $credentials);
+        $headers = array('Content-Type => application/x-www-form-urlencoded');
+        $client = new Client([ 'headers' => $headers]);
+        $response = $client->send($request);
+        $result = $response->getBody();
+        return $result;
+    }*/
 }

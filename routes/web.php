@@ -14,4 +14,5 @@ Route::prefix('api')->group(function () {
     Route::get('os', 'OperatingSystemController@list');
     Route::get('service', 'ServiceController@list');
     Route::get('status', 'StatusController@list');
+    Route::get('test', 'DeviceController@test');
 });

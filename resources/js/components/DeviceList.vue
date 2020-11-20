@@ -88,6 +88,30 @@
                 this.selectedDevice = device;
             },
         },
+
+        mounted() {
+            var socket = new WebSocket(
+                'wss://brg4vyb9oc.execute-api.us-east-1.amazonaws.com/production'
+            );
+
+            // Connection opened
+            socket.addEventListener('open', function (event) {
+                socket.send('Hello Server!');
+                console.log(new Date())
+            });
+
+            // Listen for messages
+            socket.addEventListener('message', function (event) {
+                console.log('Message from servers2', event.data);
+                console.log(new Date())
+            });
+
+            // Listen for messages
+            socket.addEventListener('close', function (event) {
+                console.log('Closing', event);
+                console.log(new Date())
+            });
+        },
     });
 
     export default DeviceList;
