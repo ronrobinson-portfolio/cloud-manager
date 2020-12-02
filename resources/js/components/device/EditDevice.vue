@@ -96,6 +96,7 @@
         watch: {
             device(newVal) {
                 this.editableDevice = newVal ? { ...newVal } : {};
+                
             },
         },
     };
