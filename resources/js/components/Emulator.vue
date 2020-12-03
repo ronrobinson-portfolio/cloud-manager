@@ -65,13 +65,17 @@
         mounted() {
             this.refreshDevices();
 
-            Echo.channel('device-updated').listen('DeviceUpdatedEvent', (e) => {
-                this.refreshDevices();
-            });
+            Echo.channel('emulator')
+                .listen('DeviceUpdatedEvent', (e) => {
+                    this.refreshDevices();
+                })
+                .listen('ListDevicesEvent', (e) => {
+                    this.$router.push({name: 'home'})
+                });
         },
 
         beforeDestroy() {
-            Echo.leaveChannel('device-updated');
+            Echo.leaveChannel('emulator');
         },
     };
 </script>

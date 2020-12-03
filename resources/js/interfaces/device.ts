@@ -1,3 +1,5 @@
+import Echo from "laravel-echo";
+
 export interface Device {
     id: number;
     status_id: number;
@@ -11,4 +13,5 @@ export interface DeviceState {
 
 export interface DeviceListData {
     selectedDevice: Device | null;
+    echo: Echo | null;
 }

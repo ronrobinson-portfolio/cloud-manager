@@ -2079,12 +2079,16 @@ var statusStore = Object(vuex__WEBPACK_IMPORTED_MODULE_0__["createNamespacedHelp
     var _this2 = this;
 
     this.refreshDevices();
-    Echo.channel('device-updated').listen('DeviceUpdatedEvent', function (e) {
+    Echo.channel('emulator').listen('DeviceUpdatedEvent', function (e) {
       _this2.refreshDevices();
+    }).listen('ListDevicesEvent', function (e) {
+      _this2.$router.push({
+        name: 'home'
+      });
     });
   },
   beforeDestroy: function beforeDestroy() {
-    Echo.leaveChannel('device-updated');
+    Echo.leaveChannel('emulator');
   }
 });
 
@@ -26626,6 +26630,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var components_device_DeviceForm_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! components/device/DeviceForm.vue */ "./resources/js/components/device/DeviceForm.vue");
+/* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
 var __assign = (undefined && undefined.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -26640,6 +26645,7 @@ var __assign = (undefined && undefined.__assign) || function () {
 
 
 
+
 var deviceStore = Object(vuex__WEBPACK_IMPORTED_MODULE_1__["createNamespacedHelpers"])('device');
 var statusStore = Object(vuex__WEBPACK_IMPORTED_MODULE_1__["createNamespacedHelpers"])('status');
 var DeviceList = vue__WEBPACK_IMPORTED_MODULE_0__["default"].extend({
@@ -26648,6 +26654,7 @@ var DeviceList = vue__WEBPACK_IMPORTED_MODULE_0__["default"].extend({
     },
     data: function () { return ({
         selectedDevice: null,
+        echo: null,
     }); },
     computed: __assign(__assign(__assign({}, deviceStore.mapState(['devices'])), statusStore.mapState(['statuses'])), { headers: function () {
             return [
@@ -26686,22 +26693,22 @@ var DeviceList = vue__WEBPACK_IMPORTED_MODULE_0__["default"].extend({
         },
     },
     mounted: function () {
-        var socket = new WebSocket('wss://brg4vyb9oc.execute-api.us-east-1.amazonaws.com/production');
-        // Connection opened
-        socket.addEventListener('open', function (event) {
-            socket.send('Hello Server!');
-            console.log(new Date());
+        var _this = this;
+        this.echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_3__["default"]({
+            broadcaster: 'pusher',
+            key: "49e7291545f691951dbe",
+            cluster: "us3",
+            forceTLS: false,
+            encrypted: false,
         });
-        // Listen for messages
-        socket.addEventListener('message', function (event) {
-            console.log('Message from servers2', event.data);
-            console.log(new Date());
+        this.echo.channel('emulator').listen('ShowEmulatorEvent', function () {
+            _this.$router.push({ name: 'emulator' });
         });
-        // Listen for messages
-        socket.addEventListener('close', function (event) {
-            console.log('Closing', event);
-            console.log(new Date());
-        });
+    },
+    beforeDestroy: function () {
+        if (this.echo) {
+            this.echo.leaveChannel('emulator');
+        }
     },
 });
 /* harmony default export */ __webpack_exports__["default"] = (DeviceList);
@@ -87835,7 +87842,6 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0__["default"]({
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
 
-console.log('bootstrap');
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
@@ -89250,8 +89256,8 @@ ErrorBag.prototype._match = function _match(selector) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\web\cloud_manager\resources\js\app.ts */"./resources/js/app.ts");
-module.exports = __webpack_require__(/*! C:\web\cloud_manager\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/ronrobinson 1/web/cloud-manager-2/resources/js/app.ts */"./resources/js/app.ts");
+module.exports = __webpack_require__(/*! /Users/ronrobinson 1/web/cloud-manager-2/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

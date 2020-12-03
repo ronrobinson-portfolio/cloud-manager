@@ -30,6 +30,7 @@
     import DeviceForm from 'components/device/DeviceForm.vue';
     import { Device, DeviceListData } from 'interfaces/device';
     import { Status } from 'interfaces/status';
+    import Echo from 'laravel-echo';
 
     const deviceStore = createNamespacedHelpers('device');
     const statusStore = createNamespacedHelpers('status');
@@ -41,6 +42,7 @@
 
         data: (): DeviceListData => ({
             selectedDevice: null,
+            echo: null,
         }),
 
         computed: {
@@ -90,6 +92,28 @@
         },
 
         mounted() {
+            this.echo = new Echo({
+                broadcaster: 'pusher',
+                key: process.env.MIX_PUSHER_APP_KEY,
+                cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+                forceTLS: false,
+                encrypted: false,
+            });
+
+            this.echo.channel('emulator').listen('ShowEmulatorEvent', () => {
+                this.$router.push({name: 'emulator'});
+            });
+        },
+
+        beforeDestroy() {
+            if (this.echo) {
+                this.echo.leaveChannel('emulator');
+            }
+        },
+
+        /*
+        mounted() {
+
             var socket = new WebSocket(
                 'wss://brg4vyb9oc.execute-api.us-east-1.amazonaws.com/production'
             );
@@ -112,6 +136,8 @@
                 console.log(new Date())
             });
         },
+
+         */
     });
 
     export default DeviceList;
