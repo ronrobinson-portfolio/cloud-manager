@@ -68,6 +68,12 @@ class DeviceController extends Controller
         return new ResponseResource(['message' => 'Device Saved']);
     }
 
+    public function destroy(Device $device) {
+        $device->delete();
+        event(new DeviceUpdatedEvent($device));
+        return new ResponseResource(['message' => 'Device Deleted']);
+    }
+
     /*
     public function test() {
         $url = "https://brg4vyb9oc.execute-api.us-east-1.amazonaws.com/production/@connections/" . 'WPQNTeZrIAMCEdA=';

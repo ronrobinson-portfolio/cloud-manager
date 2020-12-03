@@ -52,6 +52,12 @@ const actions: ActionTree<DeviceState, RootState> = {
             .update(device)
             .then(() => dispatch('getDevices'))
             .catch((err: Error) => Promise.reject(err)),
+
+    deleteDevice: ({ dispatch, commit }, device) =>
+        deviceApi
+            .delete(device)
+            .then(() => dispatch('getDevices'))
+            .catch((err: Error) => Promise.reject(err)),
 };
 
 export default { state, getters, mutations, actions };

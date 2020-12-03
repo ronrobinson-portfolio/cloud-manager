@@ -65,4 +65,11 @@ class AlexaController extends Controller
 
         return new ResponseResource(['message' => 'Device is already on']);
     }
+
+    public function delete(Device $device) {
+        $device->delete();
+
+        event(new DeviceUpdatedEvent($device));
+        return new ResponseResource(['message' => 'Deleted device ' . $device->id]);
+    }
 }

@@ -22,5 +22,6 @@ Route::prefix('api')->group(function () {
         Route::get('show_emulator', 'AlexaController@showEmulator');
         Route::get('turn_off/{device}', 'AlexaController@turnOff');
         Route::get('turn_on/{device}', 'AlexaController@turnOn');
+        Route::get('delete/{device}', 'AlexaController@delete');
     });
 });

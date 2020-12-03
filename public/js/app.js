@@ -2048,6 +2048,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 var deviceStore = Object(vuex__WEBPACK_IMPORTED_MODULE_0__["createNamespacedHelpers"])('device');
 var statusStore = Object(vuex__WEBPACK_IMPORTED_MODULE_0__["createNamespacedHelpers"])('status');
@@ -2218,6 +2219,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 var appStore = Object(vuex__WEBPACK_IMPORTED_MODULE_0__["createNamespacedHelpers"])('app');
 var deviceStore = Object(vuex__WEBPACK_IMPORTED_MODULE_0__["createNamespacedHelpers"])('device');
@@ -2243,7 +2246,7 @@ var statusStore = Object(vuex__WEBPACK_IMPORTED_MODULE_0__["createNamespacedHelp
       return !this.editableDevice.id;
     }
   }),
-  methods: _objectSpread(_objectSpread({}, deviceStore.mapActions(['addDevice', 'updateDevice'])), {}, {
+  methods: _objectSpread(_objectSpread({}, deviceStore.mapActions(['addDevice', 'updateDevice', 'deleteDevice'])), {}, {
     closeModal: function closeModal() {
       this.errorBag.clear();
       this.$emit('update:device', null);
@@ -2256,6 +2259,13 @@ var statusStore = Object(vuex__WEBPACK_IMPORTED_MODULE_0__["createNamespacedHelp
       })) : this.updateDevice(this.editableDevice);
       actionPromise.then(function () {
         return _this.closeModal();
+      })["catch"](function () {});
+    },
+    handleDeleteButtonClick: function handleDeleteButtonClick() {
+      var _this2 = this;
+
+      this.deleteDevice(this.editableDevice).then(function () {
+        return _this2.closeModal();
       })["catch"](function () {});
     }
   }),
@@ -26971,7 +26981,7 @@ var render = function() {
                           attrs: {
                             color: _vm.getSheetColor(device),
                             width: "200",
-                            height: "100"
+                            height: "130"
                           }
                         },
                         [
@@ -26983,6 +26993,12 @@ var render = function() {
                           _vm._v(" "),
                           _c("div", [
                             _vm._v(_vm._s(_vm.getDeviceStatus(device)))
+                          ]),
+                          _vm._v(" "),
+                          _c("div", [
+                            _c("strong", [
+                              _vm._v("device # " + _vm._s(device.id))
+                            ])
                           ])
                         ]
                       )
@@ -27244,7 +27260,20 @@ var render = function() {
                   on: { click: _vm.handleButtonClick }
                 },
                 [_vm._v(_vm._s(_vm.isAddMode ? "Add" : "Update"))]
-              )
+              ),
+              _vm._v(" "),
+              _c("v-spacer"),
+              _vm._v(" "),
+              !_vm.isAddMode
+                ? _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "error", small: "" },
+                      on: { click: _vm.handleDeleteButtonClick }
+                    },
+                    [_vm._v("Delete")]
+                  )
+                : _vm._e()
             ],
             1
           )
@@ -87723,6 +87752,9 @@ var baseUrl = '/api/device';
   update: function update(device) {
     return Object(_client__WEBPACK_IMPORTED_MODULE_0__["default"])().put(baseUrl + '/' + device.id, device);
   },
+  "delete": function _delete(device) {
+    return Object(_client__WEBPACK_IMPORTED_MODULE_0__["default"])()["delete"](baseUrl + '/' + device.id);
+  },
   get: function get() {
     return Object(_client__WEBPACK_IMPORTED_MODULE_0__["default"])().get(baseUrl);
   }
@@ -88423,6 +88455,13 @@ var actions = {
         var dispatch = _a.dispatch, commit = _a.commit;
         return apis_modules_DeviceApi__WEBPACK_IMPORTED_MODULE_0__["default"]
             .update(device)
+            .then(function () { return dispatch('getDevices'); })
+            .catch(function (err) { return Promise.reject(err); });
+    },
+    deleteDevice: function (_a, device) {
+        var dispatch = _a.dispatch, commit = _a.commit;
+        return apis_modules_DeviceApi__WEBPACK_IMPORTED_MODULE_0__["default"]
+            .delete(device)
             .then(function () { return dispatch('getDevices'); })
             .catch(function (err) { return Promise.reject(err); });
     },

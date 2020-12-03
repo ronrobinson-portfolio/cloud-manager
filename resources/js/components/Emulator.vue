@@ -13,12 +13,13 @@
                             :color="getSheetColor(device)"
                             class="caption pa-2"
                             width="200"
-                            height="100"
+                            height="130"
                         >
                             <div>{{ device.name }}</div>
                             <div>{{ device.deviceable_value }}</div>
                             <div>{{ device.ip }}</div>
                             <div>{{ getDeviceStatus(device) }}</div>
+                            <div><strong>device # {{ device.id }}</strong></div>
                         </v-sheet>
                     </v-col>
                 </v-row>

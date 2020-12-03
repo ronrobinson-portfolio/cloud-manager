@@ -101,6 +101,8 @@
                 <v-btn color="primary"  @click="handleButtonClick">{{
                     isAddMode ? 'Add' : 'Update'
                 }}</v-btn>
+                <v-spacer />
+                <v-btn v-if="!isAddMode" color="error" small @click="handleDeleteButtonClick">Delete</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -141,7 +143,7 @@
         },
 
         methods: {
-            ...deviceStore.mapActions(['addDevice', 'updateDevice']),
+            ...deviceStore.mapActions(['addDevice', 'updateDevice', 'deleteDevice']),
 
             closeModal() {
                 this.errorBag.clear();
@@ -158,6 +160,12 @@
 
                 actionPromise.then(() => this.closeModal()).catch(() => {});
             },
+
+            handleDeleteButtonClick() {
+                this.deleteDevice(this.editableDevice)
+                    .then(() => this.closeModal())
+                    .catch(() => {});
+            }
         },
 
         watch: {

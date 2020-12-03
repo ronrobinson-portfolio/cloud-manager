@@ -11,6 +11,10 @@ export default {
         return api().put(baseUrl + '/' + device.id, device);
     },
 
+    delete(device) {
+        return api().delete(baseUrl + '/' + device.id);
+    },
+
     get() {
         return api().get(baseUrl);
     },
